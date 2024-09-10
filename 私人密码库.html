@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私人密码库</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #hash-value {
+      color: blue;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    /* Adjusted styles for matrices */
+    .matrices {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .matrix {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
+    }
+
+     
+    
+  </style>
+  <script>
+    
+    function hashCode(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash &= hash; // Ensure hash is a 32-bit signed integer
+        if(hash < 0)
+          hash = -hash;                             //确保他是恒正
+      }
+      
+
+      
+      // Convert to a fixed 18-digit unsigned integer
+      hash = hash.toString().padStart(24, hash);
+      
+      return hash;
+}
+
+
+    function showHash() {
+      let siteName = document.getElementById("site-name").value;
+      let password = document.getElementById("password").value;
+      let input = siteName + password;
+      let hash = hashCode(input);
+      // 获取前8位
+      let first8 = hash.substring(0, 8);
+
+      // 获取中间8位
+      let middle8 = hash.substring(8, 16);
+
+      // 获取后8位
+      let last8 = hash.substring(16);
+      // Display results on the page
+      document.getElementById("hash-value").innerHTML = `
+        您的Hash密钥最终值为: ${hash}<br>
+        数字矩阵: ${first8}<br>
+        字母矩阵: ${middle8}<br>
+        字符矩阵: ${last8}
+      `;
+      return false; // Prevent the default form submission behavior
+    }
+  </script>
+</head>
+<body>
+  <form action="https://www.example.com" method="get" target="_blank" onsubmit="return showHash()">
+
+    <label for="site-name">网址名称:</label>
+    <select name="site-name" id="site-name">
+      <option value="www.bilibili.com">www.bilibili.com</option>
+      <option value="w3schools">W3Schools</option>
+      <option value="stackoverflow">Stack Overflow</option>
+      <option value="github">GitHub</option>
+    </select>
+    <br>
+    <label for="password">密码:</label>
+    <input type="password" id="password" name="password" maxlength="20" pattern="[A-Za-z0-9]+">
+    <br>
+    <button type="submit">点击生成</button>
+    <br>
+    <div id="hash-value"></div>
+     <!-- Added matrices section with fixed content -->
+     <div class="matrices">
+      <div class="matrix" id="number-matrix" style="font-family: 'Courier New', monospace;">
+        1 5 0 4<br>
+        8 6 7 3<br>
+        5 2 3 0<br>
+        9 1 6 8
+      </div>
+      <!-- Improved formatting for the letter matrix -->
+      <div class="matrix" id="letter-matrix" style="font-family: 'Courier New', monospace;">
+        a  h  i  k<br>
+        g  e  l  b<br>
+        f  c  n  q<br>
+        m  p  d  j
+      </div>
+
+      <!-- Improved formatting for the character matrix -->
+      <div class="matrix" id="char-matrix" style="font-family: 'Courier New', monospace;">
+        @   #   $   %<br>
+        &   *   (   )<br>
+        !   ?   /   \<br>
+        +   -   =   _
+      </div>
+
+    </div>
+  </form>
+</body>
+</html>
