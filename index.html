@@ -153,21 +153,25 @@
       } 
 
       function finalNumber() {
-        let firstHalf = first8.substring(0, 4);  
-        let secondHalf = first8.substring(4, 8);
+        let firstHalf = last8.substring(0, 4);
+        let secondHalf = last8.substring(4, 8);
+        let temp = [];
         let res = [];
+        for (let i = 0; i < 4; i++) {
+          temp.push(matrix3[firstHalf[i] % 4][secondHalf[i] % 4]);  
+        }
+        res.push(temp[0]);
+        firstHalf = first8.substring(0, 4);  
+        secondHalf = first8.substring(4, 8);
         for (let i = 0; i < 2; i++) {
           res.push(matrix1[firstHalf[i] % 4][secondHalf[i] % 4]);  
         }
-        firstHalf = last8.substring(0, 4);
-        secondHalf = last8.substring(4, 8);
-        for (let i = 0; i < 2; i++) {
-          res.push(matrix3[firstHalf[i] % 4][secondHalf[i] % 4]);  
-        }
+        res.push(temp[1]);
         firstHalf = middle8.substring(0, 4);
         secondHalf = middle8.substring(4, 8);
         for (let i = 0; i < 2; i++) {
-          res.push(matrix2[firstHalf[i] % 4][secondHalf[i] % 4]);  
+          res.push(matrix2[firstHalf[i] % 4][secondHalf[i] % 4]);
+          if (i == 1) res.push(temp[2]);  
         }
         firstHalf = first8.substring(0, 4);  
         secondHalf = first8.substring(4, 8);
@@ -177,12 +181,8 @@
         firstHalf = middle8.substring(0, 4);
         secondHalf = middle8.substring(4, 8);
         for (let i = 2; i < 4; i++) {
+          if (i == 3) res.push(temp[3]);
           res.push(matrix2[firstHalf[i] % 4][secondHalf[i] % 4]);  
-        }
-        firstHalf = last8.substring(0, 4);
-        secondHalf = last8.substring(4, 8);
-        for (let i = 0; i < 2; i++) {
-          res.push(matrix3[firstHalf[i] % 4][secondHalf[i] % 4]);  
         }
         return res.join("");
       }
