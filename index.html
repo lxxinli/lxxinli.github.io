@@ -73,128 +73,63 @@
       border-radius: 4px;
     }
 
-     
-    
   </style>
+  
+  <!-- 引入本地 crypto-js 文件 -->
+  <script src="node_modules/crypto-js/crypto-js.js"></script>
+  
   <script>
     
     function hashCode(str) {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        hash &= hash; // Ensure hash is a 32-bit signed integer
-        if(hash < 0)
-          hash = -hash;                             //确保他是恒正
-      }
-      
-
-      
-      // Convert to a fixed 18-digit unsigned integer
-      hash = hash.toString().padStart(24, hash);
-      
+      let hash = CryptoJS.SHA1(str).toString(CryptoJS.enc.Hex);   
       return hash;
-}
+  }
 
 
     function showHash() {
       let siteName = document.getElementById("site-name").value;
       let password = document.getElementById("password").value;
       let input = siteName + password;
-      let hash = hashCode(input);
-      // 获取前8位
-      let first8 = hash.substring(0, 8);
+      // 防止密码太长只取中间13位
+      let hash = hashCode(input).substring(10, 23);
 
-      // 获取中间8位
-      let middle8 = hash.substring(8, 16);
+      let matrix = ["@", "#", "$", "%", "&", "*", "!", "?", "@", "#"];
+      let digits = []; // 存储数字字符的数组
+      let res = []; //存储最终字符数组
+      for (let i = 0, idx = 0; idx < 6 && i < hashCode(input).length; i++) {  
+        let char = hash.charAt(i); // 获取当前字符
+        if (char >= '0' && char <= '9') { // 检查字符是否是数字
+          digits.push(matrix[char - '0']); // 如果是数字，则添加到数组中
+          idx++;
+        }
+      }
+      while (digits.length < 6) {
+        if (digits.length % 2 == 0) digits.push(matrix[1]);
+        else digits.push(matrix[2]);
+      }
+      let idx = 0;
+      for (let i = 0; i < 13; i++) {
+        let ch = hash.charAt(i);
+        res.push(ch);
+        if (idx < 6) {
+          if (i == 1) res.push(digits[idx++]);
+          else if (i == 5) res.push(digits[idx++]);
+          else if (i == 8) res.push(digits[idx++]);
+          else if (i == 10) res.push(digits[idx++]);
+          else if (i == 11) res.push(digits[idx++]);
+          else if (i == 12) res.push(digits[idx++]);
+          else if (ch >= '0' && ch <= '9') { // 检查字符是否是数字
+            res.push(digits[idx++]); // 如果是数字，则添加到数组中
+          }
+        }
 
-      // 获取后8位
-      let last8 = hash.substring(16);
-
-      let matrix1 = [  
-          [1, 5, 0, 4],  
-          [8, 6, 7, 3],  
-          [5, 2, 3, 0],  
-          [9, 1, 6, 8]  
-      ];  
-      let matrix2 = [  
-          ["a", "h", "i", "k"],  
-          ["g", "e", "l", "b"],  
-          ["f", "c", "n", "q"],  
-          ["m", "p", "d", "j"]  
-      ];
-      let matrix3 = [  
-          ["@", "#", "$", "%"],  
-          ["&", "*", "!", "?"],  
-          ["?", "#", "$", "%"],  
-          ["!", "@", "*", "&"]  
-      ];
-      // 定义一个函数来将8位字符串拆分成四个坐标对  
-      function formatCoordinates(str) {  
-        // 确保字符串长度是8  
-        if (str.length !== 8) {  
-          throw new Error("String must be 8 characters long and contain only digits");  
-        }  
-        
-        // 分割字符串为两部分  
-        let firstHalf = str.substring(0, 4);  
-        let secondHalf = str.substring(4, 8);  
-        
-        // 初始化一个空数组来存储坐标对  
-        let coordinates = [];  
-        
-        // 遍历第一部分字符串，同时确保第二部分也有相应的字符（即索引在范围内）  
-        for (let i = 0; i < firstHalf.length; i++) {  
-          // 创建一个坐标对字符串，并将它添加到数组中  
-          coordinates.push(`(${firstHalf[i]},${secondHalf[i]})`);  
-        }  
-        
-        // 使用 join(',') 来将坐标对数组转换为一个由逗号分隔的字符串  
-        return coordinates.join(', ');  
-      } 
-
-      function finalNumber() {
-        let firstHalf = last8.substring(0, 4);
-        let secondHalf = last8.substring(4, 8);
-        let temp = [];
-        let res = [];
-        for (let i = 0; i < 4; i++) {
-          temp.push(matrix3[firstHalf[i] % 4][secondHalf[i] % 4]);  
-        }
-        res.push(temp[0]);
-        firstHalf = first8.substring(0, 4);  
-        secondHalf = first8.substring(4, 8);
-        for (let i = 0; i < 2; i++) {
-          res.push(matrix1[firstHalf[i] % 4][secondHalf[i] % 4]);  
-        }
-        res.push(temp[1]);
-        firstHalf = middle8.substring(0, 4);
-        secondHalf = middle8.substring(4, 8);
-        for (let i = 0; i < 2; i++) {
-          res.push(matrix2[firstHalf[i] % 4][secondHalf[i] % 4]);
-          if (i == 1) res.push(temp[2]);  
-        }
-        firstHalf = first8.substring(0, 4);  
-        secondHalf = first8.substring(4, 8);
-        for (let i = 2; i < 4; i++) {
-          res.push(matrix1[firstHalf[i] % 4][secondHalf[i] % 4]);  
-        }
-        firstHalf = middle8.substring(0, 4);
-        secondHalf = middle8.substring(4, 8);
-        for (let i = 2; i < 4; i++) {
-          if (i == 3) res.push(temp[3]);
-          res.push(matrix2[firstHalf[i] % 4][secondHalf[i] % 4]);  
-        }
-        return res.join("");
       }
 
 
+      hash = res.join('');
       // Display results on the page
       document.getElementById("hash-value").innerHTML = `
-        您的Hash密钥最终值为: ${hash}<br>
-        数字矩阵: ${formatCoordinates(first8)}<br>
-        字母矩阵: ${formatCoordinates(middle8)}<br>
-        字符矩阵: ${formatCoordinates(last8)}<br>
-        最终密码：${finalNumber()}
+        您的Hash密钥最终值为: <br>${hash}
       `;
       return false; // Prevent the default form submission behavior
     }
@@ -221,10 +156,10 @@
      <!-- Added matrices section with fixed content -->
      <div class="matrices">
       <div class="matrix" id="number-matrix" style="font-family: 'Courier New', monospace;">
-        1 5 0 4<br>
-        8 6 7 3<br>
-        5 2 3 0<br>
-        9 1 6 8
+        1  5  0  4<br>
+        8  6  7  3<br>
+        5  2  3  0<br>
+        9  1  6  8
       </div>
       <!-- Improved formatting for the letter matrix -->
       <div class="matrix" id="letter-matrix" style="font-family: 'Courier New', monospace;">
@@ -237,9 +172,9 @@
       <!-- Improved formatting for the character matrix -->
       <div class="matrix" id="char-matrix" style="font-family: 'Courier New', monospace;">
         @   #   $   %<br>
-        &   *   !   ?<br>
-        ?   #   $   %<br>
-        !   @   *   &
+        &   *   (   )<br>
+        !   ?   /   \<br>
+        +   -   =   _
       </div>
 
     </div>
