@@ -448,7 +448,7 @@ defaults: # 将所有配置选项使用<https://jekyllrb.com/docs/configuration/
               </style>
               
 
-            - | 自定义 code 标签的样式
+            - | # 自定义 code 标签的样式
               <style>
                code {    
                      background-color: #f8f8f8;
