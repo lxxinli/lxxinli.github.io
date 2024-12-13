@@ -30,3 +30,67 @@
 `1. One`
 
 1. One
+
+#### 10. 块注释
+
+> `> ` 
+
+#### 11. LaTeX语法
+
+
+
+[LaTeX符号大全](https://blog.csdn.net/qq_17528659/article/details/82152530)
+
+
+
+| **LaTeX**     | **LaTeX 代码**  | **说明**  |
+| ------ | -------- | --- |
+| $n^2$         | `$n^2$`         |           |
+| $n^{100}$     | `$n^{100}$`     |           |
+| $x_i$         | `$x_i$`         |           |
+| $\text{x}$    | `$\text{x}$`    |           |
+| $\le$         | `$\le$`         |           |
+| $\ge$         | `$\ge$`         |           |
+| $\ne$         | `$\ne$`         |           |
+| $\times$      | `$\times$`      |           |
+| $\ast$        | `$\ast$`        |           |
+| $\sqrt{x}$    | `$\sqrt{x}$`    |           |
+| $\sqrt[n]{x}$ | `$\sqrt[n]{x}$` |           |
+| 空格          | `$\ $`          | 如$a \ b$ |
+| $\gets$       | `$\gets$`       |           |
+| $\to$ | `$\to$` | |
+| $\Rightarrow$ | $\Rightarrow$ | |
+| $\begin{cases}  x = 1  \\ y = 1 \end{cases} $ | `$\begin{cases}  x = 1  \\ y = 1 \end{cases} $` | |
+| $\sum_{k=1}^N k^2$ | `$\sum_{k=1}^N k^2$` | 行内公式 |
+| $\dots$ | `$\dots$` | |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

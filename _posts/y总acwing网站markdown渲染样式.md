@@ -2,7 +2,7 @@
 
 
 
-```py
+```shell
 /* 自定义 code 标签的样式 */
 code {
     background-color: #f8f8f8;
@@ -13,5 +13,22 @@ code {
     border-radius: 3px;
     white-space: nowrap;
 }
+```
+
+#### 下面是我从csdn爬下来的，感觉更紧凑一点，和y总的区别也不算大
+
+```shell
+/* 自定义 code 标签的样式 */
+code {
+    background-color: #F9F2F4; /* 背景颜色 */
+    color: #C7254E; /* 字体颜色 */
+    padding: 2px 4px; /* 内边距，符合图片的 2px 4px */
+    font-size: 10px; /* 字体大小 */
+    font-family: "Source Code Pro", "comic code", "DejaVu Sans Mono", Menlo, Monaco, Consolas, "Courier New", monospace; /* 字体设置 */
+    border-radius: 3px; /* 边框圆角 */
+    white-space: nowrap; /* 防止换行 */
+    border: none; /* 去除边框 */
+}
+
 ```
 
