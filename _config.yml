@@ -215,7 +215,7 @@ defaults: # 将所有配置选项使用<https://jekyllrb.com/docs/configuration/
                   2024-2025 lx
                 </div>
             wordcount: # 全站字数统计
-              enable: false # 本地调试时建议关闭，非常影响站点生成速度（所需时间与博文数量的平方成正比）
+              enable: true # 本地调试时建议关闭，非常影响站点生成速度（所需时间与博文数量的平方成正比）
               prepend: <i class="fa-solid fa-user-edit fa-fw"></i>
               kilo: 千
               unit: 字
@@ -460,6 +460,12 @@ defaults: # 将所有配置选项使用<https://jekyllrb.com/docs/configuration/
                      white-space: nowrap;
                }
                </style>
+          append_to_head: # 添加github.css
+            - |
+              <link
+                rel="stylesheet"
+                href="{{ '/assets/css/github.css' | relative_url }}"
+              />
           plugin:
             - smart_include:
                 enable: true
