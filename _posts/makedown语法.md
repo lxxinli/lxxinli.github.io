@@ -63,6 +63,7 @@
 | $\begin{cases}  x = 1  \\ y = 1 \end{cases} $ | `$\begin{cases}  x = 1  \\ y = 1 \end{cases} $` | |
 | $\sum_{k=1}^N k^2$ | `$\sum_{k=1}^N k^2$` | 行内公式 |
 | $\dots$ | `$\dots$` | |
+| ∼ |  | 特殊符号直接复制 |
 
 
 
